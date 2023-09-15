@@ -119,6 +119,12 @@ public class DeleteComedian extends JFrame {
 		foto1.setBounds(0, 0, 1088, 760);
 		foto1.setIcon(icon);
 
+		btn1 = new JButton();
+		btn1.setBounds(500, 440, 120, 130);
+		btn1.setContentAreaFilled(false);
+		btn1.setBorderPainted(true);
+		btn1.setFocusPainted(false);
+
 		txt = new JTextField();
 		txt.setFont(font1);
 		txt.setBounds(403, 325, 300, 100);
@@ -135,7 +141,7 @@ public class DeleteComedian extends JFrame {
 		btn2.setBorder(BorderFactory.createEmptyBorder());
 
 		add(btn2);
-
+		add(btn1);
 		add(txt);
 		add(foto1);
 		setVisible(false);

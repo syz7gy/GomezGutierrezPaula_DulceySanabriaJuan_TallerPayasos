@@ -124,6 +124,12 @@ public class EditCom extends JFrame {
 		txt.setBounds(403, 325, 300, 100);
 		txt.setBackground(Color.white);
 		txt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		
+		btn1 = new JButton();
+		btn1.setBounds(500, 440, 120, 130);
+		btn1.setContentAreaFilled(false);
+		btn1.setBorderPainted(true);
+		btn1.setFocusPainted(false);
 
 		img2 = new ImageIcon("src/main/java/co/edu/unbosque/view/images/Back.png").getImage();
 		icon2 = new ImageIcon(img2.getScaledInstance(90, 63, Image.SCALE_SMOOTH));
@@ -134,6 +140,7 @@ public class EditCom extends JFrame {
 		btn2.setFocusPainted(false);
 		btn2.setBorder(BorderFactory.createEmptyBorder());
 
+		add(btn1);
 		add(btn2);
 		add(txt);
 		add(foto1);

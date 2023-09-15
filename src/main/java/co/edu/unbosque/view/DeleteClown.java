@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,7 +22,7 @@ public class DeleteClown extends JFrame {
 	private Image img1, img2;
 	private Icon icon, icon2;
 	private JButton btn1, btn2;
-	private JTextField txt;
+	private JTextField txt, id, nomb;
 
 	public JPanel getPanel() {
 		return panel;
@@ -95,6 +96,22 @@ public class DeleteClown extends JFrame {
 		this.txt = txt;
 	}
 
+	public JTextField getId() {
+		return id;
+	}
+
+	public void setId(JTextField id) {
+		this.id = id;
+	}
+
+	public JTextField getNomb() {
+		return nomb;
+	}
+
+	public void setNomb(JTextField nomb) {
+		this.nomb = nomb;
+	}
+
 	public DeleteClown() {
 		setTitle("Delete clown");
 		setBounds(600, 200, 2500, 900);
@@ -125,6 +142,13 @@ public class DeleteClown extends JFrame {
 		txt.setBackground(Color.white);
 		txt.setBorder(new EmptyBorder(0, 0, 0, 0));
 
+		btn1 = new JButton();
+		btn1.setBounds(500, 440, 120, 130);
+		btn1.setContentAreaFilled(false);
+		btn1.setBorderPainted(true);
+		btn1.setFocusPainted(false);
+		
+		
 		img2 = new ImageIcon("src/main/java/co/edu/unbosque/view/images/Back.png").getImage();
 		icon2 = new ImageIcon(img2.getScaledInstance(90, 63, Image.SCALE_SMOOTH));
 		btn2 = new JButton(icon2);
@@ -134,15 +158,11 @@ public class DeleteClown extends JFrame {
 		btn2.setFocusPainted(false);
 		btn2.setBorder(BorderFactory.createEmptyBorder());
 
+		add(btn1);
 		add(btn2);
 		add(txt);
 		add(foto1);
 		setVisible(false);
 	}
 
-	public void añadirMoto(String param) {
-		if (txt == null) {
-			JOptionPane.showMessageDialog(null, "You can't delete nothing.");
-		}
-	}
 }
