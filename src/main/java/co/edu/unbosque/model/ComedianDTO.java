@@ -2,15 +2,15 @@ package co.edu.unbosque.model;
 
 public class ComedianDTO extends PersonDTO{
 	
-	private boolean hasJob;
+	private int numPresentations;
 	
 	public ComedianDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ComedianDTO(boolean hasJob) {
+	public ComedianDTO(int numPresentations) {
 		super();
-		this.hasJob = hasJob;
+		this.numPresentations = numPresentations;
 	}
 
 	public ComedianDTO(int id, long cc, String name, String educationLevel) {
@@ -18,23 +18,28 @@ public class ComedianDTO extends PersonDTO{
 		// TODO Auto-generated constructor stub
 	}
 
-	public ComedianDTO(int id, long cc, String name, String educationLevel, boolean hasJob) {
+	public ComedianDTO(int id, long cc, String name, String educationLevel, int numePresentations) {
 		super(id, cc, name, educationLevel);
-		this.hasJob = hasJob;
+		this.numPresentations = numePresentations;
 	}
 
-	public boolean isHasJob() {
-		return hasJob;
+	public int getNumPresentations() {
+		return numPresentations;
 	}
 
-	public void setHasJob(boolean hasJob) {
-		this.hasJob = hasJob;
+	public void setNumPresentations(int numPresentations) {
+		this.numPresentations = numPresentations;
 	}
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		StringBuilder sb = new StringBuilder();
+		sb.append("ID: " + getId());
+		sb.append("\nDocument: " + getCc());
+		sb.append("\nName: " + getName());
+		sb.append("\nEducation level: " + getEducationLevel());
+		sb.append("\nNumber of presentations: " + numPresentations  + "\n");
+		return sb.toString();
 	}
 	
 	

@@ -33,7 +33,12 @@ public class ClownDTO extends PersonDTO{
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		StringBuilder sb = new StringBuilder();
+		sb.append("ID: " + getId());
+		sb.append("\nDocument: " + getCc());
+		sb.append("\nName: " + getName());
+		sb.append("\nEducation level: " + getEducationLevel());
+		sb.append("\nNumber of friends: " + numFriends  + "\n");
+		return sb.toString();
 	}
 }

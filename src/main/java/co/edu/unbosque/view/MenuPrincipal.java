@@ -75,7 +75,7 @@ public class MenuPrincipal extends JFrame{
 		panel.setBackground(new Color(0, 234, 0));
 		panel.setBounds(0, 0, 1088, 760);
 
-		imagen1 = new ImageIcon("src/main/java/co/edu/unbosque/view/images/Menu.png").getImage();
+		imagen1 = new ImageIcon("images/Menu.png").getImage();
 		icon1 = new ImageIcon(imagen1.getScaledInstance(1088, 760, Image.SCALE_DEFAULT));
 		foto1 = new JLabel();
 		foto1.setBounds(0, 0, 1088, 760);

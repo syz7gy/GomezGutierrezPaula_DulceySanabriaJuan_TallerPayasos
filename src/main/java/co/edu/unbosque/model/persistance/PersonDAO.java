@@ -17,11 +17,11 @@ public class PersonDAO implements CRUDOperation{
 	}
 
 	@Override
-	public void create(Object o, String database) {
+	public void create(Object o, String table) {
 		PersonDTO person = (PersonDTO) o;
 		dbcon.initConnection();
 		try {
-			dbcon.setPreparedStatement(dbcon.getConnect().prepareStatement("INSERT INTO "+ database +" VALUES(?,?,?,?);"));
+			dbcon.setPreparedStatement(dbcon.getConnect().prepareStatement("INSERT INTO "+ table +" VALUES(?,?,?,?);"));
 			dbcon.getPreparedStatement().setInt(1, person.getId());
 			dbcon.getPreparedStatement().setLong(2, person.getCc());
 			dbcon.getPreparedStatement().setString(3, person.getName());
@@ -37,10 +37,9 @@ public class PersonDAO implements CRUDOperation{
 	@Override
 	public void create(String... args) {
 		PersonDTO person = new PersonDTO(Integer.parseInt(args[0]), Long.parseLong(args[1]), args[2], args[3]);
-		String database = args[5];
 		dbcon.initConnection();
 		try {
-			dbcon.setPreparedStatement(dbcon.getConnect().prepareStatement("INSERT INTO "+ database +" VALUES(?,?,?,?);"));
+			dbcon.setPreparedStatement(dbcon.getConnect().prepareStatement("INSERT INTO person VALUES(?,?,?,?);"));
 			dbcon.getPreparedStatement().setInt(1, person.getId());
 			dbcon.getPreparedStatement().setLong(2, person.getCc());
 			dbcon.getPreparedStatement().setString(3, person.getName());
@@ -69,6 +68,7 @@ public class PersonDAO implements CRUDOperation{
 				String educationLevel = dbcon.getResultSet().getString("educationlevel");
 				people.add(new PersonDTO(id, cc, name, educationLevel));
 			}
+			dbcon.getPreparedStatement().executeUpdate();
 			dbcon.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -91,6 +91,7 @@ public class PersonDAO implements CRUDOperation{
 										+ cc + ", name=" + name + ", educationLevel=" + educationLevel
 										+ " WHERE id=" + id + ";"));
 			PersonDTO updated = new PersonDTO(id, cc, name, educationLevel);
+			dbcon.getPreparedStatement().executeUpdate();
 			people.set(id-1, updated);
 			dbcon.close();
 		} catch (SQLException e) {
@@ -107,6 +108,7 @@ public class PersonDAO implements CRUDOperation{
 			dbcon.initConnection();
 			dbcon.setStatement(dbcon.getConnect().createStatement());
 			dbcon.setResultSet(dbcon.getStatement().executeQuery("DELETE FROM person WHERE id=" + id + ";"));
+			dbcon.getPreparedStatement().executeUpdate();
 			people.remove(id-1);
 			dbcon.close();
 		} catch (SQLException e) {

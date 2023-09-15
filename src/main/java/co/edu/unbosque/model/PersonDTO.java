@@ -50,4 +50,16 @@ public class PersonDTO {
 		this.educationLevel = educationLevel;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("ID: " + id);
+		sb.append("\nDocument: " + cc);
+		sb.append("\nName: " + name);
+		sb.append("\nEducation level: " + educationLevel + "\n");
+		return sb.toString();
+	}
+	
+	
+
 }
