@@ -20,10 +20,44 @@ public class DBconnection {
 
 	public DBconnection() {
 		// TODO Auto-generated constructor stub
+	}	
+
+	public void initConnection() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			connect = DriverManager.getConnection("jdbc:mysql://" + IP + ":" + PORT + "/" + DATABASE, USERNAME,
+					PASSWORD);
+			System.out.println("Conexion realizada con exito.");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void close() {
+		try {
+
+			if (resultSet != null) {
+				resultSet.close();
+				;
+			}
+			if (statement != null) {
+				statement.close();
+			}
+			if (connect != null) {
+				connect.close();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 	}
 	
-	
-
 	public Connection getConnect() {
 		return connect;
 	}
@@ -98,43 +132,5 @@ public class DBconnection {
 
 	public String getPASSWORD() {
 		return PASSWORD;
-	}
-
-
-
-	public void initConnection() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			connect = DriverManager.getConnection("jdbc:mysql://" + IP + ":" + PORT + "/" + DATABASE, USERNAME,
-					PASSWORD);
-			System.out.println("Conexion realizada con exito.");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void close() {
-		try {
-
-			if (resultSet != null) {
-				resultSet.close();
-				;
-			}
-			if (statement != null) {
-				statement.close();
-			}
-			if (connect != null) {
-				connect.close();
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
 	}
 }
