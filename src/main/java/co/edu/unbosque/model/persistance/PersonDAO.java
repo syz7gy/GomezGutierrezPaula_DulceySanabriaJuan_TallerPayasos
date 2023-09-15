@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import co.edu.unbosque.controller.DBconnection;
 import co.edu.unbosque.model.PersonDTO;
+import co.edu.unbosque.model.PersonDTO;
 
 public class PersonDAO implements CRUDOperation{
 	private ArrayList<PersonDTO> people;
@@ -35,33 +36,82 @@ public class PersonDAO implements CRUDOperation{
 
 	@Override
 	public void create(String... args) {
-		// TODO Auto-generated method stub
+		PersonDTO person = new PersonDTO(Integer.parseInt(args[0]), Long.parseLong(args[1]), args[2], args[3]);
+		String database = args[5];
+		dbcon.initConnection();
+		try {
+			dbcon.setPreparedStatement(dbcon.getConnect().prepareStatement("INSERT INTO "+ database +" VALUES(?,?,?,?);"));
+			dbcon.getPreparedStatement().setInt(1, person.getId());
+			dbcon.getPreparedStatement().setLong(2, person.getCc());
+			dbcon.getPreparedStatement().setString(3, person.getName());
+			dbcon.getPreparedStatement().setString(4, person.getEducationLevel());
+			dbcon.getPreparedStatement().executeUpdate();
+			dbcon.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		people.add(person);
 		
 	}
 
 	@Override
 	public String readAll() {
-		String exit = "";
+		String output = "";
 		people.clear();
 		dbcon.initConnection();
 		try {
 			dbcon.setStatement(dbcon.getConnect().createStatement());
-			
-		} catch (Exception e) {
-			// TODO: handle exception
+			dbcon.setResultSet(dbcon.getStatement().executeQuery("SELECT * FROM person;"));
+			while(dbcon.getResultSet().next()) {
+				int id = dbcon.getResultSet().getInt("id");
+				long cc = dbcon.getResultSet().getLong("cc");
+				String name = dbcon.getResultSet().getString("name");
+				String educationLevel = dbcon.getResultSet().getString("educationlevel");
+				people.add(new PersonDTO(id, cc, name, educationLevel));
+			}
+			dbcon.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return null;
+		for(PersonDTO person : people) {
+			output += person.toString();
+		}
+		return output;
 	}
 
 	@Override
 	public int updateById(int id, String... args) {
-		// TODO Auto-generated method stub
+		try {
+			dbcon.initConnection();
+			long cc = Long.parseLong(args[0]);
+			String name = args[1];
+			String educationLevel = args[2];
+			dbcon.setStatement(dbcon.getConnect().createStatement());
+			dbcon.setResultSet(dbcon.getStatement().executeQuery("UPDATE person SET cc=" 
+										+ cc + ", name=" + name + ", educationLevel=" + educationLevel
+										+ " WHERE id=" + id + ";"));
+			PersonDTO updated = new PersonDTO(id, cc, name, educationLevel);
+			people.set(id-1, updated);
+			dbcon.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 
 	@Override
 	public int deleteById(int id) {
-		// TODO Auto-generated method stub
+		try {
+			dbcon.initConnection();
+			dbcon.setStatement(dbcon.getConnect().createStatement());
+			dbcon.setResultSet(dbcon.getStatement().executeQuery("DELETE FROM person WHERE id=" + id + ";"));
+			people.remove(id-1);
+			dbcon.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 
