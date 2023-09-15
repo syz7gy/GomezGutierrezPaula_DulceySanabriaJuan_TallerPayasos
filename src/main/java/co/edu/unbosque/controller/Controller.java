@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import co.edu.unbosque.model.ClownDTO;
+import co.edu.unbosque.model.ComedianDTO;
+import co.edu.unbosque.model.persistance.ClownDAO;
+import co.edu.unbosque.model.persistance.ComedianDAO;
+import co.edu.unbosque.model.persistance.PersonDAO;
 import co.edu.unbosque.view.*;
 
 public class Controller implements ActionListener, KeyListener {
@@ -21,6 +26,10 @@ public class Controller implements ActionListener, KeyListener {
 	private ShowCom showcom;
 	private EditCom editcom;
 	private DeleteComedian deletcom;
+	private PersonDAO pdao;
+	private ClownDAO cldao;
+	private ComedianDAO comdao;
+	
 	private Console con;
 
 	public Controller() {
@@ -68,66 +77,67 @@ public class Controller implements ActionListener, KeyListener {
 	 */
 
 	public void agregarLectores() {
+		//ELECCION PARA ENTRAR AL MENU PAYASO
 		menuel.getBtn1().addActionListener(this);
 		menuel.getBtn1().setActionCommand("boton1vista2");
-
+		//ELECCION PARA ENTRAR AL MENU COMEDIANTE
 		menuel.getBtn2().addActionListener(this);
 		menuel.getBtn2().setActionCommand("boton2vista2");
-		
+		//ELECCION PARA VOLVER AL MENU PRINCIPAL
 		menuel.getBtn3().addActionListener(this);
 		menuel.getBtn3().setActionCommand("botonbackvist2");
-		
+		//ELECCION PARA VOLVER AL MENU DE PAYASO DESDE LA VENTANA AGREGAR PAYASO
 		addpay.getBtn2().addActionListener(this);
 		addpay.getBtn2().setActionCommand("botonbackaddpay");
-		
+		//ELECCION PARA VOLVER AL MENU DE PAYASO DESDE LA VENTANA MOSTRAR PAYASO
 		showpay.getBtn1().addActionListener(this);
 		showpay.getBtn1().setActionCommand("botonbackshowpay");
-		
+		//ELECCION PARA VOLVER AL MENU DE PAYASO DESDE LA VENTANA EDITAR PAYASO
 		editpay.getBtn2().addActionListener(this);
 		editpay.getBtn2().setActionCommand("botonbackeditpay");
-		
+		//ELECCION PARA VOLVER AL MENU DE PAYASO DESDE LA VENTANA ELIMINAR PAYASO
 		deletpay.getBtn2().addActionListener(this);
 		deletpay.getBtn2().setActionCommand("botonbackdeletpay");
-		
+		//ELECCION PARA IR AL MENU AGREGAR PAYASO
 		menpay.getBtn1().addActionListener(this);
 		menpay.getBtn1().setActionCommand("btn1agregarpay");
-		
+		//ELECCION PARA IR AL MENU MOSTRAR PAYASO
 		menpay.getBtn2().addActionListener(this);
 		menpay.getBtn2().setActionCommand("btn2mostrarpay");
-		
+		//ELECCION PARA IR AL MENU EDITAR PAYASO
 		menpay.getBtn3().addActionListener(this);
 		menpay.getBtn3().setActionCommand("btn3editarpay");
-		
+		//ELECCION PARA IR AL MENU ELIMINAR PAYASO
 		menpay.getBtn4().addActionListener(this);
 		menpay.getBtn4().setActionCommand("btn4eliminarpay");
-		
+		//ELECCION PARA DEVOLVERSE AL MENU DE ELECCION ENTRE COMEDIANTE Y PAYASO (DESDE EL MENU DE PAYASO)
 		menpay.getBtn5().addActionListener(this);
 		menpay.getBtn5().setActionCommand("botonbackvist3");
-		
+		//ELECCION PARA IR AL MENU AGREGAR COMEDIANTE
 		mencom.getBtn1().addActionListener(this);
 		mencom.getBtn1().setActionCommand("btn1agregarcom");
-		
+		//ELECCION PARA IR AL MENU MOSTRAR COMEDIANTE
 		mencom.getBtn2().addActionListener(this);
 		mencom.getBtn2().setActionCommand("btn2mostrarcom");
-		
+		//ELECCION PARA IR AL MENU EDITAR COMEDIANTE
 		mencom.getBtn3().addActionListener(this);
 		mencom.getBtn3().setActionCommand("btn3editarcom");
-		
+		//ELECCION PARA IR AL MENU ELIMINAR COMEDIANTE
 		mencom.getBtn4().addActionListener(this);
 		mencom.getBtn4().setActionCommand("btn4eliminarcom");
-		
+		//DEVOLVERSE AL MENU ELECCION ENTRE PAYASO Y COMEDIANTE (DESDE MENU DE COMEDIANTE)
 		mencom.getBtn5().addActionListener(this);
 		mencom.getBtn5().setActionCommand("botonbackmencom");
-		
+		//ELECCION PARA VOLVER AL MENU DE COMEDIANTE DESDE LA VENTANA AGREGAR COMEDIANTE
 		addcom.getBtn2().addActionListener(this);
 		addcom.getBtn2().setActionCommand("botonbackaddcom");
-		
+		//ELECCION PARA VOLVER AL MENU DE COMEDIANTE DESDE LA VENTANA MOSTRAR COMEDIANTE
 		showcom.getBtn1().addActionListener(this);
 		showcom.getBtn1().setActionCommand("botonbackshowcom");
-		
+		//ELECCION PARA VOLVER AL MENU DE COMEDIANTE DESDE LA VENTANA EDITAR COMEDIANTE
 		editcom.getBtn2().addActionListener(this);
 		editcom.getBtn2().setActionCommand("botonbackeditcom");
-		
+		//ELECCION PARA VOLVER AL MENU DE COMEDIANTE DESDE LA VENTANA ELIMINAR COMEDIANTE
 		deletcom.getBtn2().addActionListener(this);
 		deletcom.getBtn2().setActionCommand("botonbackdeletcom");
 
@@ -158,12 +168,25 @@ public class Controller implements ActionListener, KeyListener {
 		case "btn1agregarpay": {
 			menpay.setVisible(false);
 			addpay.setVisible(true);
+			int id = Integer.parseInt(addpay.getId().getText());
+			long cc = Long.parseLong(addpay.getCc().getText());
+			String name = addpay.getNames().getText();
+			String educationLevel = addpay.getEducationLevel().getText();
+			int numFriends = (int) addpay.getNumAmigos().getValue();
+			
+			ClownDTO newClown = new ClownDTO(id, cc, name, educationLevel, numFriends);
+			
+			cldao.create(newClown, "clown");
+			
 			break;
 		}
 		
 		case "btn2mostrarpay": {
 			menpay.setVisible(false);
 			showpay.setVisible(true);
+			
+			showpay.getTxt().setText(cldao.readAll());
+			
 			break;
 		}
 		case "btn3editarpay":{
@@ -174,16 +197,35 @@ public class Controller implements ActionListener, KeyListener {
 		case "btn4eliminarpay":{
 			menpay.setVisible(false);
 			deletpay.setVisible(true);
+			
+			int id = Integer.parseInt(deletpay.getTxt().getText());
+			
+			cldao.deleteById(id);
+			
 			break;
 		}
 		case "btn1agregarcom":{
 			mencom.setVisible(false);
 			addcom.setVisible(true);
+			
+			int id = Integer.parseInt(addcom.getId().getText());
+			long cc = Long.parseLong(addcom.getCc().getText());
+			String name = addcom.getNames().getText();
+			String educationLevel = addcom.getEducationLevel().getText();
+			int numPresentations = (int) addcom.getNumAmigos().getValue();
+			
+			ComedianDTO newCom = new ComedianDTO(id, cc, name, educationLevel, numPresentations);
+			
+			comdao.create(newCom, "comedian");
+			
 			break;
 		}
 		case "btn2mostrarcom":{
 			mencom.setVisible(false);
 			showcom.setVisible(true);
+			
+			showcom.getTxt().setText(comdao.readAll());
+			
 			break;
 		}
 		case "btn3editarcom":{
@@ -194,6 +236,11 @@ public class Controller implements ActionListener, KeyListener {
 		case "btn4eliminarcom":{
 			mencom.setVisible(false);
 			deletcom.setVisible(true);
+			
+			int id = Integer.parseInt(deletcom.getTxt().getText());
+			
+			comdao.deleteById(id);
+			
 			break;
 		}
 		case "botonbackvist2": {
@@ -277,4 +324,6 @@ public class Controller implements ActionListener, KeyListener {
 	/**
 	 * Permite utilizar los metodos de KeyPressed.
 	 */
+	
+	
 }
