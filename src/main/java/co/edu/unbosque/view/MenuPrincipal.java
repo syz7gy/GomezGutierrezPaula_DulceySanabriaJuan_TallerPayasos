@@ -15,6 +15,7 @@ public class MenuPrincipal extends JFrame{
 	private Image imagen1, imagen2;
 	private Icon icon1, icon2;
 	private JButton btn1;
+	
 	public JPanel getPanel() {
 		return panel;
 	}
@@ -57,7 +58,10 @@ public class MenuPrincipal extends JFrame{
 	public void setBtn1(JButton btn1) {
 		this.btn1 = btn1;
 	}
-	
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	public MenuPrincipal() {
 		setTitle("Menu");
 		setBounds(600, 200, 2500, 900);
